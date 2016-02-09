@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="style.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+        $(document).ready(function (){
+            var socket = io.connect();
+            socket.on('connect', function (data) {
+              console.log('BROWSER::WE ARE USING SOCKETS!');
+            })
+            socket.on('new_message', function(data) {
+              console.log(data);
+              document.getElementById("message").innerHTML = data;
+            })
+
+            $('#button').click(function(){
+              var song = $('#songURI').val()
+              console.log(song);
+              socket.emit("message", song);
+              return false;
+              
+            })
+        })
+    </script>
+  </head>
+  <body>
+    <form id="form1">
+      <p>enter song URL<input type="text" id="songURI"></p>
+      <p><input type="submit" value="send" id="button"></p>
+    </form>
+    
+    <p><a id="message">0</a></p>
+    <h1>Hello</h1>
+    <p><a id="message">0</a></p>
+  </body>
+</html>
